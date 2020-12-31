@@ -27,13 +27,13 @@ except:
 
 ## setup database
 
-#mysql_root_password = input('Database root password')
+mysql_root_password = input('Database root password')
 
 user_password = secrets.token_hex( 50 )
 
 try:
     ## todo: SQL injections?
-    engine = create_engine('sqlite:///example.db', echo=False)
+    engine = create_engine('mysql://root:%s@localhost' % mysql_root_password, echo=True)
     connection = engine.connect()
     connection.execute( "CREATE DATABASE 'tcat_%s';" % proper_project )
     connection.execute( "GRANT ALL PRIVILEDGES ON 'tcat_%s'.* TO 'tcat_‰s'@'localhost' IDENTIFIED BY '%s';" % ( proper_project, proper_project, user_password ) )
