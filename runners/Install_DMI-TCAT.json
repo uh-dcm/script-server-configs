@@ -15,17 +15,17 @@
       "type": "text"
     },
     {
-      "name": "Twitter consumer key",
+      "name": "Twitter API key",
       "param": "--twitter_consumer_key",
       "type": "text"
     },
     {
-      "name": "Twitter consumer secret",
+      "name": "Twitter API key secret",
       "param": "--twitter_consumer_secret",
       "type": "text"
     },
     {
-      "name": "Twitter user token",
+      "name": "Twitter access token",
       "param": "--twitter_user_token",
       "type": "text"
     },
