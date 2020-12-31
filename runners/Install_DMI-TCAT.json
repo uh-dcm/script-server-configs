@@ -30,7 +30,7 @@
       "type": "text"
     },
     {
-      "name": "Twitter twitter_user_secret",
+      "name": "Twitter access token secret",
       "param": "--twitter_user_secret",
       "type": "text"
     }
