@@ -17,7 +17,7 @@ clean = lambda str: re.sub(r"\s+", '_', re.sub(r"[^\w\s]", '', str.lower() ) )
 
 proper_project = clean( args.project )
 
-install_path = '/Users/mnelimar/code/digital-infrastructure-creator/'
+install_path = '/var/www/html/'
 install_path += proper_project + '/'
 
 try:
@@ -27,19 +27,22 @@ except:
 
 ## setup database
 
-mysql_root_password = input('Database root password')
+mysql_root_password = input('Database root password ')
 
 user_password = secrets.token_hex( 50 )
 
-try:
+if True:
+#try:
     ## todo: SQL injections?
     engine = create_engine('mysql://root:%s@localhost' % mysql_root_password, echo=True)
     connection = engine.connect()
-    connection.execute( "CREATE DATABASE 'tcat_%s';" % proper_project )
-    connection.execute( "GRANT ALL PRIVILEDGES ON 'tcat_%s'.* TO 'tcat_‰s'@'localhost' IDENTIFIED BY '%s';" % ( proper_project, proper_project, user_password ) )
+    connection.execute( "CREATE DATABASE tcat_%s;" % proper_project )
+    connection.execute( "GRANT ALL PRIVILEGES ON tcat_{0}.* TO 'tcat_{0}'@'localhost' IDENTIFIED BY '{1}';".format( proper_project, user_password ) )
+    connection.execute( "FLUSH PRIVILEGES;" )
     connection.close()
-except:
-    pass ## for non-debug: die, something wrong with SQL
+    print("Database [OK]")
+#except:
+#    pass ## for non-debug: die, something wrong with SQL
 
 
 ## setup configurations
@@ -50,6 +53,6 @@ config = config.replace('$database = "twittercapture";', '$database = "tcat_%s";
 config = config.replace('$mail_to = "";', '$mail_to = "%s";' % args.admin_email )
 config = config.replace('$dbuser = "";\n$dbpass = "";', '$dbuser = "tcat_%s";\n$dbpass = "%s";' % (proper_project, user_password ) )
 
-open( install_path + '/config.php3', 'w' ).write( config )
+open( install_path + '/config.php', 'w' ).write( config )
 
 print("All done.")
