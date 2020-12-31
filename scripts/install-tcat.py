@@ -12,7 +12,10 @@ import shutil
 parser = argparse.ArgumentParser(description='Setups DMI-TCAT.')
 parser.add_argument('--email', dest='admin_email')
 parser.add_argument('--project', dest='project')
-parser.add_argument('--twitter_api_key', dest='twitter_api_key')
+parser.add_argument('--twitter_consumer_key', dest='twitter_consumer_key')
+parser.add_argument('--twitter_consumer_secret', dest='twitter_consumer_secret')
+parser.add_argument('--twitter_user_token', dest='twitter_user_token')
+parser.add_argument('--twitter_user_secret', dest='twitter_user_secret')
 
 args = parser.parse_args()
 
@@ -58,6 +61,8 @@ config = open( install_path + '/config.php.example', 'r' ).read()
 config = config.replace('$database = "twittercapture";', '$database = "tcat_%s";' % proper_project )
 config = config.replace('$mail_to = "";', '$mail_to = "%s";' % args.admin_email )
 config = config.replace('$dbuser = "";\n$dbpass = "";', '$dbuser = "tcat_%s";\n$dbpass = "%s";' % (proper_project, user_password ) )
+config = config.replace('$twitter_consumer_key = "";\n$twitter_consumer_secret = "";\n$twitter_user_token = ""; \n$twitter_user_secret = "";', '$twitter_consumer_key = "{0}";\n$twitter_consumer_secret = "{1}";\n$twitter_user_token = "{2}"; \n$twitter_user_secret = "{3}";'.format( args.twitter_consumer_key, args.twitter_consumer_secret, args.twitter_user_token, args.twitter_user_secret )
+')
 
 ## todo: check how to make these sane
 config = config.replace("define('ADMIN_USER', serialize(array('admin', 'admin2')));", "// define('ADMIN_USER', serialize(array('admin', 'admin2')));")
