@@ -1,6 +1,6 @@
 {
   "name": "Install DMI-TCAT",
-  "script_path": "./conf/scripts/install-tcat.py",
+  "script_path": "cd conf/scripts/tcat/; ./download_and_setup.py",
   "description": "Downloads and install DMI-TCAT installation",
   "parameters": [
     {
