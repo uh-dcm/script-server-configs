@@ -1,10 +1,13 @@
 #!/usr/bin/python3
+import os
 import sys
 import argparse
 import git
 import re
 import secrets
 from sqlalchemy import create_engine
+from crontab import CronTab
+import shutil
 
 parser = argparse.ArgumentParser(description='Setups DMI-TCAT.')
 parser.add_argument('--email', dest='admin_email')
@@ -23,7 +26,10 @@ install_path += proper_project + '/'
 try:
     git.Repo.clone_from('https://github.com/digitalmethodsinitiative/dmi-tcat.git', install_path )
 except:
-    pass ## for non-debug: die, project name not unique
+    print("Copying instance [FAIL]")
+    quit(-1)
+
+print("Copying instance [OK]")
 
 ## setup database
 
@@ -31,8 +37,7 @@ mysql_root_password = input('Database root password ')
 
 user_password = secrets.token_hex( 50 )
 
-if True:
-#try:
+try:
     ## todo: SQL injections?
     engine = create_engine('mysql://root:%s@localhost' % mysql_root_password, echo=True)
     connection = engine.connect()
@@ -41,8 +46,9 @@ if True:
     connection.execute( "FLUSH PRIVILEGES;" )
     connection.close()
     print("Database [OK]")
-#except:
-#    pass ## for non-debug: die, something wrong with SQL
+except:
+    print("Database [FAIL]")
+    quit(-1)
 
 
 ## setup configurations
@@ -54,5 +60,25 @@ config = config.replace('$mail_to = "";', '$mail_to = "%s";' % args.admin_email 
 config = config.replace('$dbuser = "";\n$dbpass = "";', '$dbuser = "tcat_%s";\n$dbpass = "%s";' % (proper_project, user_password ) )
 
 open( install_path + '/config.php', 'w' ).write( config )
+
+## create required folders and setup permissions for them
+
+try:
+    for folder in ['analysis/cache/', 'logs/', 'proc/']:
+        folder = install_path + folder
+        os.makedirs( folder , 0o755 )
+        shutil.chown( folder , group= 'www-data' )
+    print("Creating folders [OK]")
+except:
+    print("Creating folders [FAIL]")
+    quit(-1)
+
+## setup cronjobs
+
+cron = CronTab(user='ubuntu')
+
+job = cron.new(command='(cd {0}/capture/stream/; php controller.php)'.format( install_path ) )
+job.minute.every(1)
+cron.write()
 
 print("All done.")
