@@ -1,0 +1,23 @@
+{
+  "name": "Install DMI-TCAT",
+  "script_path": "./conf/scripts/install-tcat.py",
+  "description": "Downloads and install DMI-TCAT installation",
+  "parameters": [
+    {
+      "name": "Your email address",
+      "required": true,
+      "param": "--email",
+      "type": "text"
+    },
+    {
+      "name": "Project name",
+      "param": "--project",
+      "type": "text"
+    },
+    {
+      "name": "Twitter API KEY",
+      "param": "--twitter_api_key",
+      "type": "text"
+    }
+  ]
+}
