@@ -58,13 +58,16 @@ except:
 
 config = open( install_path + '/config.php.example', 'r' ).read()
 
+## generic config
 config = config.replace('$database = "twittercapture";', '$database = "tcat_%s";' % proper_project )
 config = config.replace('$mail_to = "";', '$mail_to = "%s";' % args.admin_email )
 config = config.replace('$dbuser = "";\n$dbpass = "";', '$dbuser = "tcat_%s";\n$dbpass = "%s";' % (proper_project, user_password ) )
-config = config.replace(
-'$twitter_consumer_key = "";\n$twitter_consumer_secret = "";\n$twitter_user_token = ""; \n$twitter_user_secret = "";',
-'$twitter_consumer_key = "{0}";\n$twitter_consumer_secret = "{1}";\n$twitter_user_token = "{2}"; \n$twitter_user_secret = "{3}";'
-.format( args.twitter_consumer_key, args.twitter_consumer_secret, args.twitter_user_token, args.twitter_user_secret ) )
+
+## twitter config
+config = config.replace( '$twitter_consumer_key = "";', '$twitter_consumer_key = "%s";' % args.twitter_consumer_key )
+config = config.replace( '$twitter_consumer_secret = "";', '$twitter_consumer_secret = "%s";' % args.twitter_consumer_secret )
+config = config.replace( '$twitter_user_token = "";', '$twitter_user_token = "%s";' % args.twitter_user_token )
+config = config.replace( '$twitter_user_secret = "";', '$twitter_user_secret = "%s";' % args.twitter_user_secret )
 
 ## todo: check how to make these sane
 config = config.replace("define('ADMIN_USER', serialize(array('admin', 'admin2')));", "// define('ADMIN_USER', serialize(array('admin', 'admin2')));")
