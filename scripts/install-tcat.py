@@ -59,7 +59,14 @@ config = config.replace('$database = "twittercapture";', '$database = "tcat_%s";
 config = config.replace('$mail_to = "";', '$mail_to = "%s";' % args.admin_email )
 config = config.replace('$dbuser = "";\n$dbpass = "";', '$dbuser = "tcat_%s";\n$dbpass = "%s";' % (proper_project, user_password ) )
 
+## todo: check how to make these sane
+config = config.replace("define('ADMIN_USER', serialize(array('admin', 'admin2')));", "// define('ADMIN_USER', serialize(array('admin', 'admin2')));")
+config = config.replace("define('MYSQL_ENGINE_OPTIONS', 'ENGINE=TokuDB COMPRESSION=TOKUDB_LZMA');", "// define('MYSQL_ENGINE_OPTIONS', 'ENGINE=TokuDB COMPRESSION=TOKUDB_LZMA');")
+
+
 open( install_path + '/config.php', 'w' ).write( config )
+
+print("Configurations [OK]")
 
 ## create required folders and setup permissions for them
 
@@ -67,7 +74,7 @@ try:
     for folder in ['analysis/cache/', 'logs/', 'proc/']:
         folder = install_path + folder
         os.makedirs( folder , 0o755 )
-        shutil.chown( folder , group= 'www-data' )
+        shutil.chown( folder , group = 'www-data' )
     print("Creating folders [OK]")
 except:
     print("Creating folders [FAIL]")
