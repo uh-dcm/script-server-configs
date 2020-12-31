@@ -19,7 +19,7 @@ parser.add_argument('--twitter_user_secret', dest='twitter_user_secret')
 
 args = parser.parse_args()
 
-clean = lambda str: re.sub(r"\s+", '_', re.sub(r"[^\w\s]", '', str.lower() ) )
+clean = lambda str: re.sub(r"\s+", '_', re.sub(r"[^\w\s-]", '', str.lower() ) )
 
 proper_project = clean( args.project )
 
