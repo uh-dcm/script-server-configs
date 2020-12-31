@@ -90,9 +90,10 @@ except:
 ## setup cronjobs
 
 cron = CronTab(user='ubuntu')
-
-job = cron.new(command='(cd {0}/capture/stream/; php controller.php)'.format( install_path ) )
+job = cron.new(command='(cd {0}capture/stream/; php controller.php)'.format( install_path ) )
 job.minute.every(1)
 cron.write()
 
-print("All done.")
+print("Recurrency [OK]")
+
+print("DMI-TCAT installation [OK]")
