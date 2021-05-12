@@ -9,7 +9,8 @@ sudo systemctl restart apache2
 
 ### add ubuntu to www-data group
 sudo adduser ubuntu www-data
-chmod -R 777 /var/www/html/
+sudo chgrp -R www-data /var/www
+sudo chmod -R 775 /var/www/
 
 ## setup mysql
 
