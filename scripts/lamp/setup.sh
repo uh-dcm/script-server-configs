@@ -9,13 +9,16 @@ sudo systemctl restart apache2
 
 ### add ubuntu to www-data group
 sudo adduser ubuntu www-data
+chmod -R 777 /var/www/html/
 
 ## setup mysql
 
 ADMIN_PASS=$( tr -cd '[:alnum:]' < /dev/urandom | fold -w50 | head -n1 )
-echo $ADMIN_PASS > ~/mysql_admin.txt
+if [ ! -f ~/mysql_admin.txt ]; then
+  echo $ADMIN_PASS > ~/mysql_admin.txt
+fi
 
-yes | sudo apt-get install mysql-server mysql-client python3-dev default-libmysqlclient-dev build-essential
+sudo apt -y install mysql-server mysql-client python3-dev default-libmysqlclient-dev build-essential
 
 yes | sudo apt install expect
 
@@ -23,4 +26,6 @@ yes | sudo apt install expect
 
 echo ""
 echo ""
-echo "[OK] LAMP setup succesful."
+echo "[OK] LAMP setup succesful. Will reboot, come back in a minute."
+
+sudo shutdwn -r 1
