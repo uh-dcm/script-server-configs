@@ -1,1 +1,4 @@
 mysqlclient
+sqlalchemy
+python-git
+python-crontab
