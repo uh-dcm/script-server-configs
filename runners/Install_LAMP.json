@@ -1,0 +1,5 @@
+{
+  "name": "Install LAMP",
+  "script_path": "./home/ubuntu/script-server/conf/scripts/lamp/setup.sh",
+  "description": "Downloads and install DMI-TCAT installation",
+}
