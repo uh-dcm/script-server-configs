@@ -9,6 +9,12 @@ from sqlalchemy import create_engine
 from crontab import CronTab
 import shutil
 
+## before tcat spesific setup, install programs
+
+import os
+print( __FILE__ )
+os.system('/home/ubuntu/script-server/conf/scripts/tcat/requirements.sh')
+
 parser = argparse.ArgumentParser(description='Setups DMI-TCAT.')
 parser.add_argument('--email', dest='admin_email')
 parser.add_argument('--project', dest='project')
@@ -36,13 +42,13 @@ print("Copying instance [OK]")
 
 ## setup database
 
-mysql_root_password = input('Database root password ')
+mysql_root_password = open('~/mysql_admin.txt').read()
 
 user_password = secrets.token_hex( 50 )
 
 try:
     ## todo: SQL injections?
-    engine = create_engine('mysql://root:%s@localhost' % mysql_root_password, echo=True)
+    engine = create_engine('mysql://username:%s@localhost' % mysql_root_password, echo=True)
     connection = engine.connect()
     connection.execute( "CREATE DATABASE tcat_%s;" % proper_project )
     connection.execute( "GRANT ALL PRIVILEGES ON tcat_{0}.* TO 'tcat_{0}'@'localhost' IDENTIFIED BY '{1}';".format( proper_project, user_password ) )

@@ -1,6 +1,6 @@
 {
   "name": "Install DMI-TCAT",
-  "script_path": "python3 /home/ubuntu/script-server/conf/scripts/tcat/download_and_setup.py",
+  "script_path": "python3 /home/ubuntu/script-server/conf/scripts/tcat/install.py",
   "description": "Downloads and install DMI-TCAT installation",
   "parameters": [
     {
