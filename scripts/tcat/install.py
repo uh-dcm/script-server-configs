@@ -49,16 +49,18 @@ try:
     ## todo: SQL injections?
     engine = create_engine('mysql://admin:%s@localhost' % mysql_root_password, echo=True)
     connection = engine.connect()
+    connection.execute("COMMIT")
     connection.execute( "CREATE DATABASE tcat_%s;" % proper_project )
-    connection.execute( "GRANT ALL PRIVILEGES ON tcat_{0}.* TO 'tcat_{0}'@'localhost' IDENTIFIED BY '{1}';".format( proper_project, user_password ) )
+    connection.execute( "CREATE USER 'tcat_{0}'@'localhost' IDENTIFIED BY '{1}';".format( proper_project, user_password ) )
+    connection.execute( "GRANT ALL PRIVILEGES ON tcat_{0}.* TO 'tcat_{0}'@'localhost';".format( proper_project ) )
     connection.execute( "FLUSH PRIVILEGES;" )
+    connection.execute("COMMIT")
     connection.close()
     print("Database [OK]")
 except:
     print("Database [FAIL]")
     quit(-1)
-
-
+    
 ## setup configurations
 
 config = open( install_path + '/config.php.example', 'r' ).read()
