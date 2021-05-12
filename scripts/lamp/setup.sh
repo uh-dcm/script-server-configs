@@ -1,6 +1,10 @@
+#!/bin/sh
+
+cd /home/ubuntu/script-server/conf/scripts/lamp
+
 ## LAMP setup
-yes | sudo apt install apache2
-yes | sudo apt-get install php libapache2-mod-php
+sudo apt -y install apache2
+sudo apt -y install php libapache2-mod-php
 sudo systemctl restart apache2
 
 ### add ubuntu to www-data group
@@ -16,3 +20,7 @@ yes | sudo apt-get install mysql-server mysql-client python3-dev default-libmysq
 yes | sudo apt install expect
 
 ./mysql.sh $ADMIN_PASS
+
+echo ""
+echo ""
+echo "[OK] LAMP setup succesful."
