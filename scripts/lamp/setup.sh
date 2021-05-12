@@ -18,7 +18,7 @@ if [ ! -f ~/mysql_admin.txt ]; then
   echo $ADMIN_PASS > ~/mysql_admin.txt
 fi
 
-sudo apt -y install mysql-server mysql-client python3-dev default-libmysqlclient-dev build-essential
+sudo apt -y install mariadb-server mariadb-client python3-dev default-libmysqlclient-dev build-essential
 
 yes | sudo apt install expect
 
