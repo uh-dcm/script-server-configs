@@ -28,4 +28,4 @@ echo ""
 echo ""
 echo "[OK] LAMP setup succesful. Will reboot, come back in a minute."
 
-sudo shutdwn -r 1
+sudo shutdown -r 1
